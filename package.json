@@ -1,0 +1,22 @@
+{
+  "name": "vsr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emsar69/vsr.git"
+  },
+  "author": "emsar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/emsar69/vsr/issues"
+  },
+  "homepage": "https://github.com/emsar69/vsr#readme",
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
