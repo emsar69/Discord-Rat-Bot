@@ -1,9 +1,12 @@
 # CAN ONLY BE USED FOR EDUCATIONAL PURPOSES
 
 ## Rat Discord Server
-
+- the shit you use to control someones pc ykyk
 
 ## Feel free to copy
-## Use only for legal reasons
+- im not that type of programmers 💀
 
-### Discord: emsar69
+## I'm **NOT RESPONSIBLE** for any illegal use of this application.
+Enjoy...
+
+### Discord: [Emsar69](discord://-/users/1018096765225938985)
