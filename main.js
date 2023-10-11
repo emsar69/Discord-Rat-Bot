@@ -11,15 +11,19 @@ const server = net.createServer(socket => {
 
     socket.on("data", (msg) => {
         msg = msg.toString()
-        const json = JSON.parse(msg)
-        if(json){
-            if(json["type"]){
-                if(json["type"] == "AuthRequest"){
-                    user = json["uname"]+" "+json["cname"]
-                    clients[user] = socket;
-                    console.log(`${user} connected`)
+        try{
+            const json = JSON.parse(msg)
+            if(json){
+                if(json["type"]){
+                    if(json["type"] == "AuthRequest"){
+                        user = json["uname"]+" "+json["cname"]
+                        clients[user] = socket;
+                        console.log(`${user} connected`)
+                    }
                 }
             }
+        }catch(e){
+            console.warn("Not Json.")
         }
     })
 
