@@ -1,9 +1,33 @@
 require("dotenv").config()
 const {Client, IntentsBitField} = require("discord.js")
-const bot = new Client({intents: [IntentsBitField.Flags.GuildMessages, IntentsBitField.Flags.GuildMembers, IntentsBitField.Flags.MessageContent]})
+const bot = new Client({intents: [IntentsBitField.Flags.GuildMessages, IntentsBitField.Flags.GuildMembers, IntentsBitField.Flags.MessageContent, IntentsBitField.Flags.Guilds]})
 const net = require("net")
 
 var clients = {}
+var guild
+
+function checkNameAndType(name, type){
+    return new Promise((res, rej) => {
+        guild.channels.fetch().then(cs => {
+            cs.forEach(c => {
+                if(c.type == type && c.name == name) res(true);
+            })
+            res(false)
+        })
+    })
+}
+
+function setupCategory(name){
+    guild.channels.create({type: 4, name: name}).then(ca => {
+        guild.channels.create({name: "Cmd Remote"}).then(c => c.setParent(ca))
+    })
+}
+
+async function createUser(name) {
+    if(!guild) return;
+    var has = await checkNameAndType(name, 4)
+    if(!has) setupCategory(name)
+}
 
 const server = net.createServer(socket => {
     var user
@@ -19,6 +43,9 @@ const server = net.createServer(socket => {
                         user = json["uname"]+" "+json["cname"]
                         clients[user] = socket;
                         console.log(`${user} connected`)
+                        setTimeout(() => {
+                            createUser(user)
+                        },5000)
                     }
                 }
             }
@@ -40,8 +67,19 @@ const server = net.createServer(socket => {
     })
 })
 
-bot.on("ready", () => {
+bot.on("messageCreate", (msg) => {
+    if(msg.author.bot) return;
+    if(msg.channel.name == "cmd-remote"){
+        console.log(msg.channel.parent.name)
+        var socket = clients[msg.channel.parent.name]
+        if(!socket) return
+        socket.write(JSON.stringify({type: "cmdRun", value: msg.content}))
+    }
+})
+
+bot.on("ready", async() => {
     console.log(`Logged as ${bot.user.username}`)
+    guild = await bot.guilds.fetch("1022544166078648360")
 })
 
 bot.login(process.env.discord_bot_token)
